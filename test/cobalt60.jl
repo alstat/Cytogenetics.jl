@@ -2,8 +2,17 @@ include("src/Cytogenetic.jl")
 
 using Cytogenetic
 using DataFrames
+using CSV
 
-my_data = readtable(joinpath(homedir(), "Desktop", "cobalt.csv"));
-my_data
+data = DataFrame(CSV.File(joinpath(homedir(), "Documents", "Cobalt60.csv")));
+data
 
-utest(my_data, :aberr, :cell; celldist = [5, 10])
+x = test(AbstractUTest, data, :aberr, :cell; celldist = [4, 9])
+
+fit(LinearQuadratic, data, :aberr, :cell, :doses)
+fit(LinearQuadratic(true), data, :aberr, :cell, :doses)
+fit(LinearQuadratic(overdispersed = true), data, :aberr, :cell, :doses)
+
+fit(Linear, data, :aberr, :cell, :doses)
+fit(Linear(overdispersed = true), data, :aberr, :cell, :doses)
+fit(Linear(true), data, :aberr, :cell, :doses)
