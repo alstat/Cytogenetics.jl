@@ -3,17 +3,21 @@
 
 function for computing the u test statistics of the distribution of the dicentrics
 """
-function utest(d::AbstractDataFrame, args::Symbol...; celldist::Array = [4, 9])
-    checker(AbstractTest, d, args...)
+function test(::Type{T}, d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9]) where {T <: AbstractTest}
+    checker(T, d, args...)
+    utest(d, args...; celldist = celldist)
+end 
+
+function utest(d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9])
     disp_idx = Float64[]; u_test = []; desc = [];
 
     for i = 1:nrow(d)
         xs = Array{Int}[];
         for j = 0:diff(celldist)[1]
-            if isna(d[i, celldist[1]:celldist[2]][j + 1][1]) || d[i, celldist[1]:celldist[2]][j + 1][1] == 0
+            if ismissing(d[i, celldist[1]:celldist[2]][j + 1][1]) || d[i, celldist[1]:celldist[2]][j + 1][1] == 0
                 break
             else  
-                push!(xs, repeat([j], inner = d[i, celldist[1]:celldist[2]][j + 1]))
+                push!(xs, repeat([j], inner = [d[i, celldist[1]:celldist[2]][j + 1][1]]))
             end
         end
         inp = collect(flatten(xs))
