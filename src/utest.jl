@@ -3,12 +3,12 @@
 
 function for computing the u test statistics of the distribution of the dicentrics
 """
-function test(::Type{T}, d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9]) where {T <: AbstractTest}
+function test(::Type{T}, d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9])::Union{UTest, AbstractDataFrame} where {T <: AbstractTest}
     checker(T, d, args...)
     utest(d, args...; celldist = celldist)
 end 
 
-function utest(d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9])
+function utest(d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} = [4, 9])::Union{UTest, AbstractDataFrame}
     disp_idx = Float64[]; u_test = []; desc = [];
 
     for i = 1:nrow(d)
@@ -36,5 +36,5 @@ function utest(d::AbstractDataFrame, args::Symbol...; celldist::Array{Int64, 1} 
     d[:u_test] = u_test
     d[:distribution] = desc
 
-    return d
+    return UTest(d)
 end
