@@ -1,7 +1,6 @@
 module Cytogenetic
-    using Base.Iterators: flatten
+    using Base.Iterators: flatten, show
     using DataFrames
-    using DataFramesMeta
     using GLM
     using Missings: ismissing, missing
     using Statistics
@@ -9,24 +8,27 @@ module Cytogenetic
     import StatsBase: fit;
 
     abstract type AbstractModel end
-    abstract type AbstractLinear <: AbstractModel end
-    abstract type AbstractLinearQuadratic <: AbstractModel end
-    
     abstract type AbstractTest end
-    abstract type AbstractUTest <: AbstractTest end
 
-    mutable struct LinearQuadratic <: AbstractLinearQuadratic 
+    struct UTest{T} <: AbstractTest 
+        table::T
+        UTest(table) = new{DataFrame}(table)
+    end
+
+    mutable struct LinearQuadratic <: AbstractModel
         "`overdispersed`: bool, default `false`, the dispersion of the distribution"
         overdispersed::Bool
         LinearQuadratic(;overdispersed = false) = new(overdispersed)
     end
     
-    mutable struct Linear <: AbstractLinear
+    mutable struct Linear <: AbstractModel
         "`overdispersed`: bool, default `false`, the dispersion of the distribution"
         overdispersed::Bool
         Linear(;overdispersed = false) = new(overdispersed)
     end
-
+    
+    Base.show(io::IO, ::MIME"text/plain", z::UTest{T}) where{T} = print(io, "UTest{$T}: Preliminary Test for Overdispersion\n      ", z.table)
+    
     export 
         AbstractModel,
         AbstractLinear,
