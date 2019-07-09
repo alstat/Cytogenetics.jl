@@ -4,6 +4,8 @@ module Cytogenetic
     using GLM
     using Missings: ismissing, missing
     using Statistics
+    using Plots
+    pyplot()
 
     import StatsBase: fit;
 
@@ -27,8 +29,8 @@ module Cytogenetic
         Linear(;overdispersed = false) = new(overdispersed)
     end
     
-    Base.show(io::IO, ::MIME"text/plain", z::UTest{T}) where{T} = print(io, "UTest{$T}: Preliminary Test for Overdispersion\n      ", z.table)
-    
+    Base.show(io::IO, ::MIME"text/plain", z::UTest{T}) where{T} = print(io, "UTest{$T}: Preliminary Test for Overdispersion\n", z.table)
+    # Base.show(io::IO, ::MIME"text/plain", z::StatsModels.DataFrameRegressionModel) = print(io, "Linear Quadratic Model: \n Poisson Distribuion", z)
     export 
         AbstractModel,
         AbstractLinear,

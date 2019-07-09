@@ -9,7 +9,7 @@ data
 
 disptest = test(UTest, data, :aberr, :cell; celldist = [4, 9])
 
-fit(LinearQuadratic, disptest, :aberr, :cell, :doses)
+x = fit(LinearQuadratic, disptest, :aberr, :cell, :doses);
 fit(LinearQuadratic(), disptest, :aberr, :cell, :doses)
 fit(LinearQuadratic(overdispersed = true), disptest, :aberr, :cell, :doses)
 
