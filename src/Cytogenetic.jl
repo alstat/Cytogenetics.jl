@@ -1,11 +1,11 @@
-module Cytogenetic
+module Cytogenetics
     using Base.Iterators: flatten, show
     using DataFrames
     using GLM
     using Missings: ismissing, missing
     using Statistics
     using Plots
-    pyplot()
+    # pyplot()
 
     import StatsBase: fit;
 

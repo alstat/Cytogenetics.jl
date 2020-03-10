@@ -4,7 +4,10 @@ using Cytogenetic
 using DataFrames
 using CSV
 
+data = CSV.read("Cobalt60.csv")
+
 data = DataFrame(CSV.File(joinpath(homedir(), "Documents", "Cobalt60.csv")));
+
 data
 
 disptest = test(UTest, data, :aberr, :cell; celldist = [4, 9])
